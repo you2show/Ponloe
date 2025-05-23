@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Get Blogger Token</title>
+</head>
+<body>
+  <h2>Authenticating with Google Blogger...</h2>
+  <script>
+    const clientId = "974751408115-k66dfqlj9iopi1g6c11s9b1prlprn885.apps.googleusercontent.com";
+    const redirectUri = window.location.origin + "/p/get-token.html";
+    const scope = "https://www.googleapis.com/auth/blogger";
+    const urlParams = new URLSearchParams(window.location.hash.substr(1));
+    const accessToken = urlParams.get("access_token");
+
+    if (accessToken) {
+      // ✅ Store the access token in localStorage
+      localStorage.setItem("blogger_token", accessToken);
+      alert("✅ Blogger token received!");
+      // 🔁 Redirect to profile.html
+      window.location.href = "profile.html";
+    } else {
+      // 🔄 Start OAuth flow
+      const oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}&prompt=consent`;
+      window.location.href = oauthUrl;
+    }
+  </script>
+</body>
+</html>
